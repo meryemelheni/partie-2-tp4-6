@@ -1,0 +1,13 @@
+[webserver]
+192.168.65.140
+
+[ftpserver]
+localhost
+
+[nodes:children]
+webserver
+ftpserver
+
+[nodes:vars]
+ansible_user=meryem
+ansible_connection=ssh
