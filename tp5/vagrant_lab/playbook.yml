@@ -1,0 +1,10 @@
+---
+- name: Déployer l'infrastructure sur les VM Vagrant
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+    - docker_portainer_install
+    - jenkins_install
+    - container_deployment
