@@ -1,0 +1,36 @@
+---
+- name: Installer Docker et Terraform
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Installer Docker
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - unzip
+        state: present
+        update_cache: true
+
+    - name: S'assurer que Docker est démarré
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Télécharger Terraform
+      ansible.builtin.get_url:
+        url: https://releases.hashicorp.com/terraform/1.17.0/terraform_1.17.0_linux_amd64.zip
+        dest: /tmp/terraform.zip
+
+    - name: Dézipper Terraform
+      ansible.builtin.unarchive:
+        src: /tmp/terraform.zip
+        dest: /usr/local/bin/
+        remote_src: true
+
+    - name: Rendre Terraform exécutable
+      ansible.builtin.file:
+        path: /usr/local/bin/terraform
+        mode: '0755'
